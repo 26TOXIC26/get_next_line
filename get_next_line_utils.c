@@ -44,7 +44,6 @@ char	*ft_strchr(const char *s, int c)
 {
 	if (s == NULL)
 		return (NULL);
-	
 	while (*s)
 	{
 		if (*s == (char)c)
@@ -71,17 +70,17 @@ static void	ft_strcpy(char *d, const char *s)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*result;
+	char *result;
 
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	else if (s1 && !s2)
 	{
-		return ft_strdup(s1);
+		return (ft_strdup(s1));
 	}
 	else if (!s1 && s2)
 	{
-		return ft_strdup(s2);
+		return (ft_strdup(s2));
 	}
 	else
 	{
