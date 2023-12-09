@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amousaid <amousaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/02 18:42:57 by amousaid          #+#    #+#             */
-/*   Updated: 2023/12/09 01:27:06 by amousaid         ###   ########.fr       */
+/*   Created: 2023/12/08 23:31:42 by amousaid          #+#    #+#             */
+/*   Updated: 2023/12/09 00:09:25 by amousaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_all_line(int fd, char *buffer)
 {
@@ -18,7 +18,7 @@ char	*get_all_line(int fd, char *buffer)
 	char	*temp;
 	ssize_t		i;
 
-	text = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	text = malloc((size_t)BUFFER_SIZE + 1);
 	if (!text)
 		return (NULL);
 	i = 1;
@@ -91,24 +91,17 @@ char	*reload_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[1024];
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buffer = get_all_line(fd, buffer);
-	if (buffer == NULL)
+	buffer[fd] = get_all_line(fd, buffer[fd]);
+	if (buffer[fd] == NULL)
 		return (NULL);
-	line = get_correct_line(buffer);
+	line = get_correct_line(buffer[fd]);
 	if (line == NULL)
 		return (NULL);
-	buffer = reload_line(buffer);
+	buffer[fd] = reload_line(buffer[fd]);
 	return (line);
 }
-// int main()
-// {
-// 	int fd = open("kokab.txt", O_RDWR);
-	
-// 	get_next_line(fd);
-// 	close(fd);
-// }
